@@ -1,0 +1,147 @@
+/* 부서 */
+CREATE TABLE dept (
+	deptno NUMBER(5) NOT NULL, /* 부서번호 */
+	dname VARCHAR2(15) NOT NULL, /* 부서명 */
+	loc VARCHAR2(15) /* 부서위치 */
+);
+
+CREATE UNIQUE INDEX PK_dept
+	ON dept (
+		deptno ASC
+	);
+
+CREATE UNIQUE INDEX UIQ_dept
+	ON dept (
+		dname ASC
+	);
+
+ALTER TABLE dept
+	ADD
+		CONSTRAINT PK_dept
+		PRIMARY KEY (
+			deptno
+		);
+
+ALTER TABLE dept
+	ADD
+		CONSTRAINT UK_dept
+		UNIQUE (
+			dname
+		);
+
+/* 사원 */
+CREATE TABLE sawon (
+	sabun NUMBER(3) NOT NULL, /* id */
+	saname VARCHAR2(20), /* 사원이름 */
+	deptno NUMBER(5), /* 부서번호 */
+	sajob VARCHAR2(15), /* 사원직책 */
+	sapay NUMBER(10), /* 사원급여 */
+	sahire DATE, /* 입사일 */
+	sasex VARCHAR2(6), /* 성별 */
+	samgr NUMBER(3) /* id2 */
+);
+
+CREATE UNIQUE INDEX PK_sawon
+	ON sawon (
+		sabun ASC
+	);
+
+ALTER TABLE sawon
+	ADD
+		CONSTRAINT PK_sawon
+		PRIMARY KEY (
+			sabun
+		);
+
+/* 사원폰 */
+CREATE TABLE sawon_phone (
+	pnum NUMBER(3) NOT NULL, /* id */
+	pmodel VARCHAR2(30), /* 폰모델 */
+	phnum VARCHAR2(30), /* 폰번호 */
+	pdate DATE /* 날짜 */
+);
+
+CREATE UNIQUE INDEX PK_sawon_phone
+	ON sawon_phone (
+		pnum ASC
+	);
+
+ALTER TABLE sawon_phone
+	ADD
+		CONSTRAINT PK_sawon_phone
+		PRIMARY KEY (
+			pnum
+		);
+
+/* 고객 */
+CREATE TABLE gogek (
+	gobun NUMBER(5) NOT NULL, /* 고객번호 */
+	goname VARCHAR2(30), /* 고객이름 */
+	gotel VARCHAR2(30), /* 전화번호 */
+	gojumin CHAR(14) NOT NULL, /* 주민등록번호 */
+	godam NUMBER(3) /* id */
+);
+
+CREATE UNIQUE INDEX PK_gogek
+	ON gogek (
+		gobun ASC
+	);
+
+CREATE UNIQUE INDEX UIQ_gogek
+	ON gogek (
+		gojumin ASC
+	);
+
+ALTER TABLE gogek
+	ADD
+		CONSTRAINT PK_gogek
+		PRIMARY KEY (
+			gobun
+		);
+
+ALTER TABLE gogek
+	ADD
+		CONSTRAINT UK_gogek
+		UNIQUE (
+			gojumin
+		);
+
+ALTER TABLE sawon
+	ADD
+		CONSTRAINT FK_dept_TO_sawon
+		FOREIGN KEY (
+			deptno
+		)
+		REFERENCES dept (
+			deptno
+		);
+
+ALTER TABLE sawon
+	ADD
+		CONSTRAINT FK_sawon_TO_sawon
+		FOREIGN KEY (
+			samgr
+		)
+		REFERENCES sawon (
+			sabun
+		);
+
+ALTER TABLE sawon_phone
+	ADD
+		CONSTRAINT FK_sawon_TO_sawon_phone
+		FOREIGN KEY (
+			pnum
+		)
+		REFERENCES sawon (
+			sabun
+		);
+
+ALTER TABLE gogek
+	ADD
+		CONSTRAINT FK_sawon_TO_gogek
+		FOREIGN KEY (
+			godam
+		)
+		REFERENCES sawon (
+			sabun
+		);

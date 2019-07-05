@@ -19,7 +19,7 @@ update문도 sub query 지원.
 
 cmd에서 sqlplus / as sysdba
 
-ed로 txt 파일 생성.
+ed로 실행파일 작성.
 @로 파일 실행.
 
 tab이라는 사전테이블 존재.
