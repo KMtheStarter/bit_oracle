@@ -1,0 +1,34 @@
+DTO: data transfer object. 설계하면 물리적으로 뽑아주는 모델.
+
+jdbc에서 제공해주는 세 가지 인터페이스
+- statement: 10만 건의 쿼리를 받으면 10만 개의 쿼리를 모두 저장, 버퍼에 쓰고 지우고 쓰고 지우고를 반복. 지양해야함. sql injection 우려도.
+- prepared statement: 해킹이 불가. 문자열로 변환시키고 버퍼 사용. sql 검사를 한 번에 끝내고 버퍼에 있는 값으로 결과 처리. statement보다 몇 배 빠름.
+
+프로시저가 상기 두 인터페이스보다 빠르지만, 가독성이 떨어지고 컨트롤하기 불편하여 prepared statement를 선호.
+
+ex) select * from sawon where deptno in (?, ?) order by 1 desc;
+1. Connection 연결 <- Driver Object 필요. [oracle.jdbc.jar]
+2. java.sql의 prepared statement 사용
+3. ? (사용자 입력 변수)를 활용한 sql binding 작업.
+4. cursor 반환 => result set (select 일 경우 반환됨)
+5. 처리 = loop
+6. connection 반환
+7. 값 return
+
+select의 경우 결과가 생기기 때문에 ResultSet rs = pstm.executeQuery();
+insert의 경우 결과가 반영만 되기 때문에 pstm.executeUpdate();
+
+list: 가장 최근에 사용한 쿼리 보여줌
+/ : 가장 최근에 사용한 쿼리 실행
+
+|| : 합성연산자, 문자열 연결 연산자
+in 연산자를 사용하면 반복문 코드를 짤 때 or을 쓰는 것 보다 훨씬 쉽다.
+
+group by, subquery, join 중요
+
+instr 함수: 문자열 중에서 지정한 특정 문자가 포함된 위치를 반환하는 함수.
+instr(문자열, 찾을 문자열, 검색시작, n번째)
+trim: 좌우 공백을 제거
+lpad, rpad: (문자열, 자릿수, 채울 문자) -> 문자열이 해당 자릿수가 되도록 문자 채움.
+substrb: 바이트 수로 자르기. (문자열, 시작 바이트, 바이트 크기)
+
